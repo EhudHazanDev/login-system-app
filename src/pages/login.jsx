@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { AuthService } from "../services/authService";
 
 
@@ -8,107 +8,75 @@ export const Login = () => {
     const [emailMessage, setEmailMessage] = useState("");
     const [password, setPassword] = useState("");
     const [passwordMessage, setPasswordMessage] = useState("");
-
-    let button = document.getElementById("buttonId");
-
-    useEffect(() => {
-        let button = document.getElementById("buttonId");
-        button.disabled = true;
-    }, []);
+    const [disabledLogin, setDisabledLogin] = useState(true);
 
 
-    const handleEmailEvent = (email) => {
-        button.disabled = true;
-        if (AuthService.validateEmail(email)) {
-            setEmailMessage("Valid email");
-            if (AuthService.validatePassword(password)) {
-                button.disabled = false;
-            }
+
+    const handleChangeEmail = (value) => {
+        setEmail(value);
+        debugger
+        if (AuthService.isValidEmail(value)) {
+            setEmailMessage("");
         } else {
-            setEmailMessage("Invalid email - email have to contain @ sign");
+            let length = String(value).length;
+            if (length == 0) {
+                setEmailMessage("");
+            } else {
+                setEmailMessage("Invalid email - email must contain @ sign");
+            }
+            
         }
-
-        if (email == "") { setEmailMessage(" "); }
+        checkDisableLogin(value, password);
     }
 
-    const handlePasswordEvent = (password) => {
-        button.disabled = true;
-        if (AuthService.validatePassword(password)) {
-            setPasswordMessage("Valid password");
-            if (AuthService.validatePassword(password)) {
-                button.disabled = false;
-            }
+    const handleChangePassword = (value) => {
+        setPassword(value);
+        if (AuthService.isValidPassword(value)) {
+            setPasswordMessage("");
         } else {
-            if(!AuthService.lengthValidation(password)){
-                setPasswordMessage("Password should contains least 8 characters long");    
-            }
-            if(!AuthService.uppercaseValidation(password)){
-                setPasswordMessage("Password should contains at least one uppercase letter");
-            }
-            if(!AuthService.numberValidation(password)){
-                setPasswordMessage("Password should contains at least one number");
-            }
+            const massage = AuthService.createErrorMessage(value)
+            setPasswordMessage(massage);
         }
-        if (password == "") { setPasswordMessage(" "); }
+        checkDisableLogin(email, value);
     }
 
+    const checkDisableLogin = (email, password) => {
+        AuthService.isValidPassword(password) && AuthService.isValidEmail(email) ?
+            setDisabledLogin(false)
+            :
+            setDisabledLogin(true)
+    }
 
     return (
         <form className="login">
-            <h1>Welcome to the login page:</h1>
-            <div className="emailArea">
-                <div>
-                    <input
-                        placeholder='insert email'
-                        id="Email"
-                        name="Email"
-                        value={email}
-                        onChange={(event) => {
-                            if (AuthService.inputValidation(event.target.value)) {
-                                setEmail(event.target.value);
-                            } else {
-                                setEmailMessage("Invalid input try again");
-                            }
-                            handleEmailEvent(event.target.value);
-                        }}
-                    />
-                </div>
-                <div className='emailMessageArea'>
-                    <p>{emailMessage}</p>
-                </div>
-            </div>
-            <div className="pwdArea">
-                <div>
-                    <input
-                        type="password"
-                        placeholder='insert password'
-                        id="pwd"
-                        name="pwd"
-                        value={password}
-                        onChange={(event) => {
-                            if (AuthService.inputValidation(event.target.value)) {
-                                setPassword(event.target.value);
-                            } else {
-                                setPasswordMessage("Invalid input try again");
-                            }
-                            setPassword(event.target.value);
-                            handlePasswordEvent(event.target.value);
-                        }}
-                    />
-                </div>
-                <div className='pwdMessageArea'>
-                    <p>{passwordMessage}</p>
-                </div>
-            </div>
-            <div>
-                <button
-                    id="buttonId"
-                    onClick={(event) => {
-                        // createTask(event);
-                    }}
-                >Login
-                </button>
-            </div>
+            <h1>Login</h1>
+            <input
+                placeholder='insert email'
+                id="Email"
+                name="Email"
+                value={email}
+                onChange={(event) => {
+                    handleChangeEmail(event.target.value);
+                }}
+            />
+            <p>{emailMessage}</p>
+            <input
+                type="password"
+                placeholder='insert password'
+                value={password}
+                onChange={(event) => {
+                    handleChangePassword(event.target.value);
+                }}
+            />
+            <p>{passwordMessage}</p>
+            <button
+                id="buttonId"
+                onClick={(event) => {
+                    // doLogin;
+                }}
+                disabled={disabledLogin}
+            >Login
+            </button>
         </form>
     )
 }
