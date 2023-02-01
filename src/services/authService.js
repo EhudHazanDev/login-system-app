@@ -1,14 +1,16 @@
+import { HttpService } from "./generalService/httpService";
+
 export const AuthService = {
     isValidEmail,
     isValidPassword,
     isValidInput,
     createErrorMessage,
-    _isValidlength,
+    _isValidLength,
     _isExistUppercase,
     _isExistNumber,
+    login, //need to implement 
 }
 const minLenPassword = 8;
-
 
 function createErrorMessage(password) {
     let msg = "";
@@ -25,7 +27,6 @@ function createErrorMessage(password) {
     } else {
         msg = "";
     }
-
     return msg;
 }
 
@@ -48,13 +49,13 @@ function isValidEmail(email) {
 }
 
 function isValidPassword(password) {
-    if (_isValidlength(password) && _isExistUppercase(password) && _isExistNumber(password)) {
+    if (_isValidLength(password) && _isExistUppercase(password) && _isExistNumber(password)) {
         return true;
     }
     return false;
 }
 
-function _isValidlength(password) {
+function _isValidLength(password) {
     let length = String(password).length;
     if (length >= minLenPassword) {
         return true;
@@ -78,13 +79,14 @@ function _isExistNumber(password) {
     }
 }
 
-
-// function validateEmail(email) {
-//     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-//     return re.test(String(email).toLowerCase());
-// }
-
-// function validatePassword(password) {
-//     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-//     return strongRegex.test(password);
-// }
+async function login(email, password) {
+    const data = {
+        email,
+        password,
+    }
+    const res = await HttpService.post("/authenticate", data);
+    const token = res[0].token;
+    console.log(token);
+    localStorage.setItem("token", `${token}`);
+    return token;
+}
