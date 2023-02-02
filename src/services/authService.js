@@ -87,6 +87,7 @@ async function login(email, password) {
     const res = await HttpService.post("/authenticate", data);
     const token = res[0].token;
     console.log(token);
+    debugger
     localStorage.setItem("token", `${token}`);
     return token;
 }

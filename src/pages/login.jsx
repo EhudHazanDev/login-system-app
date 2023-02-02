@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { AuthService } from "../services/authService";
 
+import { useHistory } from "react-router-dom";
+import { AuthService } from "../services/authService";
 
 export const Login = () => {
 
@@ -10,11 +11,10 @@ export const Login = () => {
     const [passwordMessage, setPasswordMessage] = useState("");
     const [disabledLogin, setDisabledLogin] = useState(true);
 
-
+    const history = useHistory();
 
     const handleChangeEmail = (value) => {
         setEmail(value);
-        debugger
         if (AuthService.isValidEmail(value)) {
             setEmailMessage("");
         } else {
@@ -47,6 +47,16 @@ export const Login = () => {
             setDisabledLogin(true)
     }
 
+     const doLogin = async (event) => {
+        debugger
+        event.preventDefault();
+        const token = await AuthService.login(email,password);
+        if (token) {
+            history.push(`/Info`);
+          }
+          debugger
+    }
+
     return (
         <form className="login">
             <h1>Login</h1>
@@ -72,7 +82,7 @@ export const Login = () => {
             <button
                 id="buttonId"
                 onClick={(event) => {
-                    // doLogin;
+                    doLogin(event);
                 }}
                 disabled={disabledLogin}
             >Login
