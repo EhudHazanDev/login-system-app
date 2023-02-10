@@ -37,9 +37,10 @@ function _buildOptions(method, data) {
         }
     }
     if (method == 'GET') {
+        const tokenStorage = localStorage.getItem("token");
         options = {
             method: 'GET',
-            headers: { Authentication: 'bearer ${token}' }
+            headers: { Authentication: `bearer ${tokenStorage}` }
         }
     }
     return options;

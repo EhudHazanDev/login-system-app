@@ -48,13 +48,11 @@ export const Login = () => {
     }
 
      const doLogin = async (event) => {
-        debugger
         event.preventDefault();
         const token = await AuthService.login(email,password);
         if (token) {
             history.push(`/Info`);
           }
-          debugger
     }
 
     return (
