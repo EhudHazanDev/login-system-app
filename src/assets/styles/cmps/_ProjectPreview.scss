@@ -8,4 +8,14 @@
         width: 18%;
         margin: 10px;
     }
+    .primeText {
+        color: #333;
+    }
+    .overLimit {
+        color: red;
+        text-decoration: underline;
+    }
+    .beforeLimit {
+        color: green;
+    }
 }

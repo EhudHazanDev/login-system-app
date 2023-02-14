@@ -1,10 +1,12 @@
-.columnHeaders {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    h1 {
-        font-size: 1.5rem;
-        width: 18%;
-        margin: 10px;
+.userDetails {
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
     }
 }

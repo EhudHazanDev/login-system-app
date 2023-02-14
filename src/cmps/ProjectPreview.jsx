@@ -1,39 +1,38 @@
-import React , {useEffect} from 'react'
+import React from 'react'
 
-export const ProjectPreview = (props) => {
-  
+export const ProjectPreview = ({project}) => {
 
   const getColor = () => {
-    if (props.project.score > 90) return 'green';
-    if (props.project.score > 70) return 'black';
-    return 'red';
+    if (project.score > 90) return 'beforeLimit';
+    if (project.score > 70) return 'primeText';
+    return 'overLimit';
   }
 
   const isNeedRetest = () => {
-    if (props.project.score >= 70 && props.project.score <= 90 && props.badProject == true)
+    if (project.score >= 70 && project.score <= 90 && project.madeDadeline === true)
       return 'Need to retest - project is not good';
-    if (props.project.score < 70)
+    if (project.score < 70)
       return 'Need to take the course again';
     return 'well done - you pass the course';
   }
 
-  const isNeedRetestColor = () => {
-    if (props.project.score >= 70 && props.project.score <= 90 && props.badProject == true)
-      return 'gray';
-    if (props.project.score < 70)
-      return 'red';
-    return 'green';
+  const getRetestColor = () => {
+    if (project.score >= 70 && project.score <= 90 && project.madeDadeline === true)
+      return 'beforeLimit';
+    if (project.score < 70)
+      return 'overLimit';
+    return 'beforeLimit';
   }
 
   return (
     <div className="projectPreview">
-      <p>{props.project.id}</p>
-      <p>{props.project.name}</p>
-      <p style={{ color: 'white', background: getColor() }}> {props.project.score}</p>
-      <p>{props.project.durationInDays}</p>
-      <p style={{ color: (props.project.bugsCount>50) ? 'red' : 'green' }}>{props.project.bugsCount}</p>
-      <p>{props.project.madeDadeline ? 'Yes' : 'False'}</p>
-      <p style={{ color: 'white', background: isNeedRetestColor() }}>{isNeedRetest()}</p>
+      <p>{project.id}</p>
+      <p>{project.name}</p>
+      <p className = {getColor()}> {project.score}</p>
+      <p>{project.durationInDays}</p>
+      <p className = {project.bugsCount>50 ? 'overLimit' : 'beforeLimit' }>{project.bugsCount}</p>
+      <p>{project.madeDadeline ? 'Yes' : 'False'}</p>
+      <p className ={getRetestColor()}>{isNeedRetest()}</p>
     </div>
   )
 }

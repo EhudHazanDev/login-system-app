@@ -8,7 +8,7 @@ export const AuthService = {
     _isValidLength,
     _isExistUppercase,
     _isExistNumber,
-    login, 
+    login,
 }
 const minLenPassword = 8;
 
@@ -33,7 +33,7 @@ function createErrorMessage(password) {
 function isValidInput(input) {
     const regex = /[1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@.]/g;
     let value = input.search(regex)
-    if (value != -1) {
+    if (value !== -1) {
         return true;
     }
 }
@@ -42,7 +42,7 @@ function isValidEmail(email) {
     const regex = /[@]/g;
 
     let value = email.search(regex)
-    if (value != -1) {
+    if (value !== -1) {
         return true;
     }
     return false;
@@ -66,7 +66,7 @@ function _isValidLength(password) {
 function _isExistUppercase(password) {
     const regex = /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/g;
     let value = password.search(regex)
-    if (value != -1) {
+    if (value !== -1) {
         return true;
     }
 }
@@ -74,7 +74,7 @@ function _isExistUppercase(password) {
 function _isExistNumber(password) {
     const regex = /[1234567890]/g;
     let value = password.search(regex)
-    if (value != -1) {
+    if (value !== -1) {
         return true;
     }
 }
