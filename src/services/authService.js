@@ -8,7 +8,7 @@ export const AuthService = {
     _isValidLength,
     _isExistUppercase,
     _isExistNumber,
-    login, //need to implement 
+    login, 
 }
 const minLenPassword = 8;
 

@@ -15,7 +15,7 @@ export const UserDetails = () => {
         <p >{user.name}</p>
         <p>{user.Team}</p>
         <p>{user.joinedAt}</p>
-        {/* <p>{user.avater}</p> */}
+        {/* <img src={user.avater}> </img>  */}
       </div>}
     </div>
   )
