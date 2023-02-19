@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import { Loader } from "../cmps/Loader";
 import { useHistory } from "react-router-dom";
 import { AuthService } from "../services/authService";
 
@@ -10,6 +10,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [passwordMessage, setPasswordMessage] = useState("");
     const [disabledLogin, setDisabledLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
 
@@ -24,7 +25,7 @@ export const Login = () => {
             } else {
                 setEmailMessage("Invalid email - email must contain @ sign");
             }
-            
+
         }
         checkDisableLogin(value, password);
     }
@@ -47,12 +48,16 @@ export const Login = () => {
             setDisabledLogin(true)
     }
 
-     const doLogin = async (event) => {
+    const doLogin = async (event) => {
+        setIsLoading(true);
         event.preventDefault();
-        const token = await AuthService.login(email,password);
+        const token = await AuthService.login(email, password);
         if (token) {
             history.push(`/Info`);
-          }
+        }
+        setTimeout(() => {
+            setIsLoading(false);
+          }, 200000);
     }
 
     return (
@@ -85,6 +90,12 @@ export const Login = () => {
                 disabled={disabledLogin}
             >Login
             </button>
+            <div>
+                {isLoading && <Loader/>}
+            </div>
+                                {/* <div style={{ cursor: isLoading ? 'wait' : 'default' }}> */}
+                                    {/* Your content goes here */}
+                                {/* </div> */}
         </form>
     )
 }
